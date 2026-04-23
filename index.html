@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | Bakmi Pangsit Menteng Pulo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Import Font Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .menu-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+        }
+        .category-nav::-webkit-scrollbar {
+            display: none;
+        }
+        .category-nav {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .product-frame {
+            position: relative;
+            padding: 20px; 
+            background: white;
+            border: 1px solid #f1f1f1;
+            border-radius: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; 
+            height: 100%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        .topping-label.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .order-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .order-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .order-list::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
+
+        /* Responsife Mobile */
+        @media (max-width: 640px) {
+
+        /* Navigation */
+        nav .max-w-3xl {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        nav .h-20 {
+            height: 60px;
+        }
+
+        nav span {
+            font-size: 20px !important;
+        }
+
+        /* Category (Semua, Makanan, Minuman) */
+        .category-nav {
+            justify-content: flex-start;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .nav-item {
+            padding: 8px 16px !important;
+            font-size: 10px !important;
+            white-space: nowrap;
+        }
+
+        /* Grid medu */
+        #menu-container {
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .product-frame {
+            padding: 12px;
+            gap: 12px;
+            border-radius: 1rem;
+        }
+
+        .product-frame h3 {
+            font-size: 13px;
+        }
+
+        .product-frame p {
+            font-size: 10px;
+        }
+
+        .product-frame button {
+            padding: 8px;
+            font-size: 10px;
+        }
+
+        /* Image */
+        .product-frame img {
+            border-radius: 12px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 20px 10px;
+        }
+
+        footer p {
+            font-size: 9px;
+            letter-spacing: 1px;
+        }
+    }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white border-b border-stone-100">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <span class="text-red-500 font-extrabold text-3xl tracking-tighter">Menu</span>
+                </div>
+                <div class="relative">
+                    <button onclick="openOrderModal()" class="bg-red-500 hover:bg-red-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all active:scale-95 shadow-lg shadow-red-100">
+                        <i class="fas fa-shopping-cart text-lg"></i>
+                    </button>
+                    <div id="cart-badge" class="absolute -top-1 -right-1 bg-stone-900 text-white text-[10px] font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-white hidden">
+                        0
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu -->
+    <main class="pt-20">
+        <!-- Category -->
+        <div class="bg-stone-50">
+            <div class="max-w-3xl mx-auto px-4 py-6">
+                <div class="category-nav flex justify-center gap-3 py-2 w-full">
+                    <button id="nav-all" onclick="setActiveNav(this, 'all')" class="nav-item px-8 py-2.5 rounded-full font-bold text-xs transition-all bg-red-500 text-white border border-red-500 shadow-md shadow-red-100">Semua</button>
+                    <button id="nav-makanan" onclick="setActiveNav(this, 'makanan')" class="nav-item px-8 py-2.5 rounded-full font-bold text-xs transition-all bg-white text-stone-500 border border-stone-200">Makanan</button>
+                    <button id="nav-minuman" onclick="setActiveNav(this, 'minuman')" class="nav-item px-8 py-2.5 rounded-full font-bold text-xs transition-all bg-white text-stone-500 border border-stone-200">Minuman</button>
+                </div>
+            </div>
+        </div>
+
+        <section class="bg-stone-50 min-h-screen px-4 pb-24">
+            <div class="max-w-3xl mx-auto">
+                <div id="menu-container" class="grid grid-cols-2 gap-4 md:gap-6">
+                    <!-- Menu injected by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Topping Modal -->
+    <div id="toppingModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="modal-overlay absolute inset-0" onclick="closeModal('toppingModal')"></div>
+        <div class="bg-white rounded-3xl w-full max-w-md relative z-10 overflow-hidden shadow-2xl">
+            <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50 text-center">
+                <div class="w-full">
+                    <h3 class="text-xl font-bold text-stone-900">Pilihan Topping</h3>
+                    <p id="selected-product-name" class="text-sm text-red-500 font-semibold"></p>
+                </div>
+                <button onclick="closeModal('toppingModal')" class="absolute right-6 top-6 text-stone-400 hover:text-stone-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="space-y-3">
+                    <!-- Yamin -->
+                    <label id="label-yamin" class="topping-label flex justify-between items-center p-4 bg-stone-50 rounded-2xl cursor-pointer hover:bg-red-50 border border-transparent transition-all">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="check-yamin" class="w-5 h-5 accent-red-500">
+                            <span class="font-bold text-stone-700 text-sm">Yamin</span>
+                        </div>
+                        <span class="text-red-500 font-bold text-sm">+Rp 1.000</span>
+                    </label>
+                    <!-- Jamur -->
+                    <label id="label-jamur" class="topping-label flex justify-between items-center p-4 bg-stone-50 rounded-2xl cursor-pointer hover:bg-red-50 border border-transparent transition-all">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="check-jamur" class="w-5 h-5 accent-red-500">
+                            <span class="font-bold text-stone-700 text-sm">Jamur</span>
+                        </div>
+                        <span class="text-red-500 font-bold text-sm">+Rp 5.000</span>
+                    </label>
+                    <!-- Pangsit Rebus -->
+                    <label id="label-pangsit-rebus" class="topping-label flex justify-between items-center p-4 bg-stone-50 rounded-2xl cursor-pointer hover:bg-red-50 border border-transparent transition-all">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="check-pangsit-rebus" class="w-5 h-5 accent-red-500">
+                            <span class="font-bold text-stone-700 text-sm">Pangsit Rebus</span>
+                        </div>
+                        <span class="text-red-500 font-bold text-sm">+Rp 3.000</span>
+                    </label>
+                    <!-- Pangsit Goreng -->
+                    <label id="label-pangsit-goreng" class="topping-label flex justify-between items-center p-4 bg-stone-50 rounded-2xl cursor-pointer hover:bg-red-50 border border-transparent transition-all">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="check-pangsit-goreng" class="w-5 h-5 accent-red-500">
+                            <span class="font-bold text-stone-700 text-sm">Pangsit Goreng</span>
+                        </div>
+                        <span class="text-red-500 font-bold text-sm">+Rp 5.000</span>
+                    </label>
+                    <!-- Bakso Sapi -->
+                    <label id="label-bakso-sapi" class="topping-label flex justify-between items-center p-4 bg-stone-50 rounded-2xl cursor-pointer hover:bg-red-50 border border-transparent transition-all">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="check-bakso-sapi" class="w-5 h-5 accent-red-500">
+                            <span class="font-bold text-stone-700 text-sm">Bakso Sapi</span>
+                        </div>
+                        <span class="text-red-500 font-bold text-sm">+Rp 2.000</span>
+                    </label>
+                    <!-- Bakso Ikan -->
+                    <label id="label-bakso-ikan" class="topping-label flex justify-between items-center p-4 bg-stone-50 rounded-2xl cursor-pointer hover:bg-red-50 border border-transparent transition-all">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="check-bakso-ikan" class="w-5 h-5 accent-red-500">
+                            <span class="font-bold text-stone-700 text-sm">Bakso Ikan</span>
+                        </div>
+                        <span class="text-red-500 font-bold text-sm">+Rp 3.000</span>
+                    </label>
+                </div>
+                <!-- Button Tambahkan Keranjang -->
+                <button onclick="addWithTopping()" class="w-full mt-6 bg-red-500 text-white py-4 rounded-2xl font-extrabold hover:bg-red-600 shadow-lg shadow-red-100 transition-all uppercase tracking-widest text-sm">
+                    Tambahkan Keranjang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="modal-overlay absolute inset-0" onclick="closeModal('orderModal')"></div>
+        <div class="bg-white rounded-3xl w-full max-w-lg relative z-10 overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="p-8 text-center relative border-b border-stone-50">
+                <h3 class="text-2xl font-extrabold text-red-500">Pesanan saya</h3>
+                <p class="text-stone-400 text-xs mt-1">Daftar menu pilihan saya</p>
+                <button onclick="closeModal('orderModal')" class="absolute right-6 top-8 text-stone-300 hover:text-stone-500 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="cart-items-container" class="order-list overflow-y-auto px-8 py-4 flex-grow space-y-6"></div>
+            <div class="p-8 bg-white border-t border-stone-50">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-lg font-extrabold text-stone-900">Total</span>
+                    <span id="cart-total-price" class="text-xl font-extrabold text-red-500">Rp 0</span>
+                </div>
+                <button onclick="sendToWhatsApp()" class="w-full bg-red-500 text-white py-4 rounded-2xl font-extrabold hover:bg-red-600 shadow-lg shadow-red-100 transition-all uppercase tracking-widest text-sm">
+                    Kirim Pesanan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] bg-stone-900 text-white px-6 py-3 rounded-full shadow-2xl hidden flex items-center gap-3">
+        <i class="fas fa-check-circle text-green-400"></i>
+        <span class="text-sm font-medium">Berhasil ditambahkan!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 px-4 text-center border-t border-stone-100">
+        <div class="max-w-3xl mx-auto">
+            <p class="text-stone-400 text-[10px] tracking-widest uppercase">&copy; 2026 Bakmi Pangsit Menteng Pulo</p>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        let currentToppingProduct = null;
+
+        // Data menu dikelompokkan ke Makanan dan Minuman
+        const menuData = [
+            {
+                type: "makanan",
+                items: [
+                    { name: "Bakmi Ayam", price: 15000, desc: "Mie varian khas, ayam cincang dadu, sawi hijau, daun bawang dengan kuah kaldu ayam.", img: "img/bakmi-ayam.png", hasTopping: true },
+                    { name: "Bakmi Bangka", price: 15000, desc: "Mie varian keriting, ayam cincang halus, sawi hijau, taoge, daun bawang dengan kuah kaldu ayam.", img: "img/bakmi-bangka.png", hasTopping: true },
+                    { name: "Bakmi Lebar", price: 16000, desc: "Mie lebar khas, ayam cincang dadu, sawi hijau, daun bawang dengan kuah kaldu ayam.", img: "img/bakmi-lebar.png", hasTopping: true },
+                    { name: "Kwetiau", price: 15000, desc: "Kwetiau khas, ayam cincang dadu, sawi hijau, daun bawang dengan kuah kaldu ayam.", img: "img/kwetiau.png", hasTopping: true },
+                    { name: "Bihun", price: 15000, desc: "Bihun khas, ayam cincang dadu, sawi hijau, daun bawang dengan kuah kaldu ayam.", img: "img/bihun.png", hasTopping: true },
+                    { name: "Pangsit Kuah", price: 18000, desc: "Pangsit rebus 10 pcs, ayam cincang dadu, sawi hijau, daun bawang dengan kuah kaldu ayam.", img: "img/pangsit-kuah.png", hasTopping: false },
+                    { name: "Bakso Sapi", price: 16000, desc: "Bakso sapi 10 pcs, ayam cincang dadu, sawi hijau, daun bawang, seledri dengan kuah kaldu ayam.", img: "img/bakso-sapi.png", hasTopping: false },
+                    { name: "Bakso Ikan", price: 18000, desc: "Bakso ikan 10 pcs, ayam cincang dadu, sawi hijau, daun bawang, seledri dengan kuah kaldu ayam.", img: "img/bakso-ikan.png", hasTopping: false },
+                    { name: "Bakso Campur", price: 20000, desc: "Bakso ikan 5 pcs dan bakso sapi 5 pcs, ayam cincang dadu, sawi hijau, daun bawang, seledri dengan kuah kaldu ayam.", img: "img/bakso-campur.png", hasTopping: false },
+                ]
+            },
+            {
+                type: "minuman",
+                items: [
+                    { name: "Teh Tawar", price: 2000, desc: "Minuman teh tawar air hangat", img: "img/teh-tawar.png", hasTopping: false },
+                    { name: "Teh Manis", price: 4000, desc: "Minuman teh manis air hangat", img: "img/teh-manis.png", hasTopping: false },
+                    { name: "Es Teh Tawar", price: 2000, desc: "Minuman es teh tawar air dingin", img: "img/es-teh-tawar.png", hasTopping: false },
+                    { name: "Es Teh Manis", price: 4000, desc: "Minuman es teh manis air dingin", img: "img/es-teh-manis.png", hasTopping: false },
+                    { name: "Es Air Putih", price: 2000, desc: "Minuman es air putih dingin", img: "img/es-air-putih.png", hasTopping: false },
+                    { name: "Es Good Day Cappucino", price: 5000, desc: "Minuman es Good Day Cappucino dingin", img: "img/goodday-cappucino.png", hasTopping: false },
+                    { name: "Kopi Hitam", price: 5000, desc: "Minuman kopi hitam air hangat", img: "img/kopi-hitam.png", hasTopping: false },
+                    { name: "Air Mineral Oasis", price: 3000, desc: "Minuman botol air mineral 600 ml", img: "img/air-mineral-oasis.png", hasTopping: false },
+                    { name: "Teh Pucuk", price: 5000, desc: "Minuman botol teh pucuk 350 ml", img: "img/teh-pucuk.png", hasTopping: false },
+                    { name: "S-tee", price: 5000, desc: "Minuman botol s-tee 390 ml", img: "img/s-tee.png", hasTopping: false },
+                ]
+            }
+        ];
+
+        function formatCurrency(num) {
+            return "Rp " + num.toLocaleString('id-ID');
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge');
+            const totalItems = cart.reduce((acc, curr) => acc + curr.quantity, 0);
+            badge.innerText = totalItems;
+            totalItems > 0 ? badge.classList.remove('hidden') : badge.classList.add('hidden');
+        }
+
+        function renderMenu(filter = 'all') {
+            const container = document.getElementById('menu-container');
+            container.innerHTML = '';
+            
+            menuData.forEach(group => {
+                if (filter !== 'all' && group.type !== filter) return;
+
+                group.items.forEach(item => {
+                    const priceFormatted = (item.price / 1000) + "k";
+                    container.innerHTML += `
+                        <div onclick="handleItemClick('${item.name}', ${item.price}, ${item.hasTopping})" class="menu-card cursor-pointer h-full">
+                            <div class="product-frame">
+                                <div class="relative aspect-square overflow-hidden rounded-2xl bg-stone-50 shrink-0">
+                                    <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex flex-col text-center gap-1">
+                                    <h3 class="font-extrabold text-stone-900 text-sm md:text-base tracking-tight">${item.name}</h3>
+                                    <p class="text-stone-400 text-[11px] font-medium leading-tight">${item.desc}</p>
+                                    <p class="text-red-500 font-extrabold text-base md:text-lg mt-1 uppercase">Rp ${priceFormatted}</p>
+                                </div>
+                                <div class="mt-auto">
+                                    <button class="w-full py-3 bg-red-500 hover:bg-red-600 text-white font-extrabold text-xs rounded-xl transition-all active:scale-95 shadow-md shadow-red-100 uppercase tracking-widest">
+                                        Order Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        function setActiveNav(target, type) {
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.className = "nav-item px-8 py-2.5 rounded-full font-bold text-xs text-stone-500 bg-white border border-stone-200 transition-all";
+            });
+            target.className = "nav-item px-8 py-2.5 rounded-full font-bold text-xs transition-all bg-red-500 text-white border-red-500 shadow-md shadow-red-100";
+            renderMenu(type);
+        }
+
+        function handleItemClick(name, price, hasTopping) {
+            if (hasTopping) {
+                currentToppingProduct = { name, price };
+                document.getElementById('selected-product-name').innerText = name;
+                document.getElementById('check-yamin').checked = false;
+                document.getElementById('check-jamur').checked = false;
+                document.getElementById('check-pangsit-rebus').checked = false;
+                document.getElementById('check-pangsit-goreng').checked = false;
+                document.getElementById('check-bakso-sapi').checked = false;
+                document.getElementById('check-bakso-ikan').checked = false;
+                document.getElementById('toppingModal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                addToCart(name, price, []);
+                showToast();
+            }
+        }
+
+        function addWithTopping() {
+            const yamin = document.getElementById('check-yamin').checked;
+            const jamur = document.getElementById('check-jamur').checked;
+            const pangsitRebus = document.getElementById('check-pangsit-rebus').checked;
+            const pangsitGoreng = document.getElementById('check-pangsit-goreng').checked;
+            const baksoSapi = document.getElementById('check-bakso-sapi').checked;
+            const baksoIkan = document.getElementById('check-bakso-ikan').checked;
+            let toppings = [];
+            if (yamin) toppings.push({ name: "yamin", label: "Yamin", price: 1000 });
+            if (jamur) toppings.push({ name: "jamur", label: "Jamur", price: 5000 });
+            if (pangsitRebus) toppings.push({ name: "pangsit-rebus", label: "Pangsit Rebus", price: 3000 });
+            if (pangsitGoreng) toppings.push({ name: "pangsit-goreng", label: "Pangsit Goreng", price: 5000 });
+            if (baksoSapi) toppings.push({ name: "bakso-sapi", label: "Bakso Sapi", price: 2000 });
+            if (baksoIkan) toppings.push({ name: "bakso-ikan", label: "Bakso Ikan", price: 3000 });
+            addToCart(currentToppingProduct.name, currentToppingProduct.price, toppings);
+            closeModal('toppingModal');
+            showToast();
+        }
+
+        function addToCart(name, price, toppings) {
+            const toppingNames = toppings.map(t => t.label).join(" + ");
+            const toppingPrice = toppings.reduce((acc, t) => acc + t.price, 0);
+            const entryName = toppingNames ? `${name} + ${toppingNames}` : name;
+            const totalPrice = price + toppingPrice;
+            
+            const existing = cart.find(i => i.fullName === entryName);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ fullName: entryName, unitPrice: totalPrice, quantity: 1 });
+            }
+            updateCartBadge();
+        }
+
+        function openOrderModal() {
+            const container = document.getElementById('cart-items-container');
+            const totalDisplay = document.getElementById('cart-total-price');
+            container.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-10 text-stone-400">Keranjang masih kosong</div>`;
+            } else {
+                cart.forEach((item, index) => {
+                    const subtotal = item.unitPrice * item.quantity;
+                    total += subtotal;
+                    container.innerHTML += `
+                        <div class="flex justify-between items-start">
+                            <div class="max-w-[70%]">
+                                <h4 class="font-extrabold text-stone-900 text-sm leading-tight">${item.fullName}</h4>
+                                <p class="text-stone-400 text-xs mt-1">${item.quantity} x ${formatCurrency(item.unitPrice)}</p>
+                                <div class="flex items-center gap-4 mt-2">
+                                    <button onclick="changeQty(${index}, -1)" class="text-red-500 text-xs font-bold hover:underline">Kurangi</button>
+                                    <button onclick="changeQty(${index}, 1)" class="text-stone-900 text-xs font-bold hover:underline">Tambah</button>
+                                </div>
+                            </div>
+                            <span class="font-extrabold text-stone-900 text-sm">${formatCurrency(subtotal)}</span>
+                        </div>
+                    `;
+                });
+            }
+            totalDisplay.innerText = formatCurrency(total);
+            document.getElementById('orderModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function changeQty(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) cart.splice(index, 1);
+            updateCartBadge();
+            openOrderModal();
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function sendToWhatsApp() {
+            if (cart.length === 0) return;
+            let total = 0;
+            let message = "Halo Bakmini, saya ingin memesan:\n\n";
+            cart.forEach(item => {
+                const subtotal = item.unitPrice * item.quantity;
+                total += subtotal;
+                message += `• *${item.fullName}* (${item.quantity}x)\n`;
+            });
+            message += `\n*Total: ${formatCurrency(total)}*`;
+            window.open(`https://wa.me/6281280906333?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2000);
+        }
+
+        window.onload = () => renderMenu();
+    </script>
+</body>
+</html>
