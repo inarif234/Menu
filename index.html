@@ -149,8 +149,13 @@
         <div class="absolute inset-0 bg-black/50 backdrop-blur-xl" onclick="closeModal('toppingModal')"></div>
         <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-[40px] modal-active p-8 max-h-[90vh] overflow-y-auto">
             <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-6"></div>
+            
+            <div class="text-center mb-8">
+                <h3 class="text-xl font-extrabold text-slate-900">Pilihan Topping</h3>
+                <p id="selected-product-name" class="text-red-500 font-bold text-sm mt-1"></p>
+            </div>
 
-            <div class="grid grid-cols-2 gap-3 mb-8" id="primary-topping">
+            <div class="grid grid-cols-2 gap-1 mb-8" id="primary-topping">
                 <label class="relative cursor-pointer group">
                     <input type="checkbox" id="check-yamin" class="hidden topping-checkbox">
                     <div class="p-4 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex justify-between items-center">
@@ -167,11 +172,7 @@
                 </label>
             </div>
 
-            <div class="text-center mb-4">
-                <h4 class="text-sm font-black text-slate-400 uppercase tracking-widest">Topping Tambahan</h4>
-            </div>
-
-            <div class="grid grid-cols-1 gap-3" id="additional-topping">
+            <div class="grid grid-cols-1 gap-1" id="additional-topping">
                 <label class="relative cursor-pointer group">
                     <input type="checkbox" id="check-pangsit-rebus" class="hidden topping-checkbox">
                     <div class="p-3 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex items-center justify-between">
