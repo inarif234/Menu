@@ -469,11 +469,10 @@
         function sendToWhatsApp() {
             if (cart.length === 0) return;
             let total = 0;
-            let message = "*PESANAN BAKMI MENTENG*\n\n";
-            cart.forEach(item => {
-                const subtotal = item.unitPrice * item.quantity;
-                total += subtotal;
-                message += `✅ *${item.fullName}*\n   ${item.quantity}x @ ${formatCurrency(item.unitPrice)}\n\n`;
+            let message = "*Halo Bapak/Ibu, saya ingin memesan:*\n\n";
+            cart.forEach((item, index) => {
+                total += item.unitPrice * item.quantity;
+                message += `${index + 1}. ${item.fullName} (${item.quantity}x)\n`;
             });
             message += `━━━━━━━━━━━━━━\n*TOTAL: ${formatCurrency(total)}*`;
             window.open(`https://wa.me/6281280906333?text=${encodeURIComponent(message)}`, '_blank');
