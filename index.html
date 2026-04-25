@@ -52,7 +52,7 @@
             width: 100%;
         }
 
-        /* Category Nav Styling */
+        /* Category Navigation */
         .category-pill {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -72,13 +72,13 @@
             box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.4);
         }
 
-        /* Topping Selection Custom Checkbox */
+        /* Topping Selection */
         .topping-checkbox:checked + div {
             border-color: #ef4444;
             background-color: #fef2f2;
         }
 
-        /* Mobile specific adjustments */
+        /* Mobile Adjustments */
         @media (max-width: 640px) {
             .container-mobile {
                 max-width: 100%;
@@ -145,104 +145,111 @@
     </div>
 
     <!-- Topping Modal (Bottom Sheet Style) -->
-<div id="toppingModal" class="fixed inset-0 z-[100] hidden">
+    <div id="toppingModal" class="fixed inset-0 z-[100] hidden">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-xl" onclick="closeModal('toppingModal')"></div>
-        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-[40px] modal-active p-8 max-h-[90vh] overflow-y-auto">
-            <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-6"></div>
-            
-            <div class="text-center mb-8">
-                <h3 class="text-xl font-extrabold text-slate-900">Pilihan Topping</h3>
-                <p id="selected-product-name" class="text-red-500 font-bold text-sm mt-1"></p>
-            </div>
-
-            <div class="grid grid-cols-2 gap-1 mb-8" id="primary-topping">
-                <label class="relative cursor-pointer group">
-                    <input type="checkbox" id="check-yamin" class="hidden topping-checkbox">
-                    <div class="p-4 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex justify-between items-center">
-                        <span class="font-bold text-slate-800 text-xs">Yamin</span>
-                        <span class="text-red-500 font-bold text-[10px]">+1k</span>
-                    </div>
-                </label>
-                <label class="relative cursor-pointer group">
-                    <input type="checkbox" id="check-jamur" class="hidden topping-checkbox">
-                    <div class="p-4 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex justify-between items-center">
-                        <span class="font-bold text-slate-800 text-xs">Extra Jamur</span>
-                        <span class="text-red-500 font-bold text-[10px]">+5k</span>
-                    </div>
-                </label>
-            </div>
-
-            <div class="grid grid-cols-1 gap-1" id="additional-topping">
-                <label class="relative cursor-pointer group">
-                    <input type="checkbox" id="check-pangsit-rebus" class="hidden topping-checkbox">
-                    <div class="p-3 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <img src="img/topping-pangsit-rebus.png" class="w-12 h-12 rounded-xl object-cover" alt="Pangsit Rebus">
-                            <span class="font-bold text-slate-800 text-xs">Pangsit Rebus</span>
-                        </div>
-                        <span class="text-red-500 font-bold text-xs">+2k</span>
-                    </div>
-                </label>
-
-                <label class="relative cursor-pointer group">
-                    <input type="checkbox" id="check-pangsit-goreng" class="hidden topping-checkbox">
-                    <div class="p-3 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <img src="img/topping-pangsit-goreng.png" class="w-12 h-12 rounded-xl object-cover" alt="Pangsit Goreng">
-                            <span class="font-bold text-slate-800 text-xs">Pangsit Goreng</span>
-                        </div>
-                        <span class="text-red-500 font-bold text-xs">+5k</span>
-                    </div>
-                </label>
-
-                <label class="relative cursor-pointer group">
-                    <input type="checkbox" id="check-bakso-sapi" class="hidden topping-checkbox">
-                    <div class="p-3 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <img src="img/topping-bakso-sapi.png" class="w-12 h-12 rounded-xl object-cover" alt="Bakso Sapi">
-                            <span class="font-bold text-slate-800 text-xs">Bakso Sapi</span>
-                        </div>
-                        <span class="text-red-500 font-bold text-xs">+2k</span>
-                    </div>
-                </label>
-
-                <label class="relative cursor-pointer group">
-                    <input type="checkbox" id="check-bakso-ikan" class="hidden topping-checkbox">
-                    <div class="p-3 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <img src="img/topping-bakso-ikan.png" class="w-12 h-12 rounded-xl object-cover" alt="Bakso Ikan">
-                            <span class="font-bold text-slate-800 text-xs">Bakso Ikan</span>
-                        </div>
-                        <span class="text-red-500 font-bold text-xs">+3k</span>
-                    </div>
-                </label>
-            </div>
-
-            <button onclick="addWithTopping()" class="w-full mt-8 bg-red-500 text-white py-5 rounded-[24px] font-black text-sm tracking-widest uppercase shadow-xl shadow-red-100 active:scale-95 transition-all">
-                Tambahkan Keranjang
-            </button>
-        </div>
-    </div>
-
-    <!-- Order Modal (Full Screen Overlay) -->
-    <div id="orderModal" class="fixed inset-0 z-[100] hidden">
-        <div class="absolute inset-0 bg-black/50 backdrop-blur-xl" onclick="closeModal('orderModal')"></div>
+        
         <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-[40px] modal-active flex flex-col h-[92vh]">
+            
             <div class="p-8 pb-4 flex justify-between items-center">
-                <h3 class="text-2xl font-black text-slate-900">Pesanan saya</h3>
-                <button onclick="closeModal('orderModal')" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400">
+                <div>
+                    <h3 class="text-2xl font-black text-slate-900 leading-tight">Pilihan Topping</h3>
+                    <p id="selected-product-name" class="text-red-500 font-bold text-xs mt-1 uppercase tracking-wider"></p>
+                </div>
+                <button onclick="closeModal('toppingModal')" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 active:scale-90 transition-transform">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
-            <div id="cart-items-container" class="flex-grow overflow-y-auto px-8 py-4 space-y-6">
-                <!-- Cart items -->
+            <div class="flex-grow overflow-y-auto px-8 py-4">
+                <div class="grid grid-cols-2 gap-3 mb-6" id="primary-topping">
+                    <label class="relative cursor-pointer group">
+                        <input type="checkbox" id="check-yamin" class="hidden topping-checkbox">
+                        <div class="p-4 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex justify-between items-center">
+                            <span class="font-bold text-slate-800 text-xs">Yamin</span>
+                            <span class="text-red-500 font-bold text-[10px]">+1k</span>
+                        </div>
+                    </label>
+                    <label class="relative cursor-pointer group">
+                        <input type="checkbox" id="check-jamur" class="hidden topping-checkbox">
+                        <div class="p-4 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex justify-between items-center">
+                            <span class="font-bold text-slate-800 text-xs">Extra Jamur</span>
+                            <span class="text-red-500 font-bold text-[10px]">+5k</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="space-y-3" id="additional-topping">
+                    <label class="relative cursor-pointer group block">
+                        <input type="checkbox" id="check-pangsit-rebus" class="hidden topping-checkbox">
+                        <div class="p-3 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <img src="img/topping-pangsit-rebus.png" class="w-12 h-12 rounded-xl object-cover" alt="Pangsit Rebus">
+                                <span class="font-bold text-slate-800 text-xs">Pangsit Rebus</span>
+                            </div>
+                            <span class="text-red-500 font-bold text-xs">+2k</span>
+                        </div>
+                    </label>
+
+                    <label class="relative cursor-pointer group block">
+                        <input type="checkbox" id="check-pangsit-goreng" class="hidden topping-checkbox">
+                        <div class="p-3 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <img src="img/topping-pangsit-goreng.png" class="w-12 h-12 rounded-xl object-cover" alt="Pangsit Goreng">
+                                <span class="font-bold text-slate-800 text-xs">Pangsit Goreng</span>
+                            </div>
+                            <span class="text-red-500 font-bold text-xs">+5k</span>
+                        </div>
+                    </label>
+
+                    <label class="relative cursor-pointer group block">
+                        <input type="checkbox" id="check-bakso-sapi" class="hidden topping-checkbox">
+                        <div class="p-3 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <img src="img/topping-bakso-sapi.png" class="w-12 h-12 rounded-xl object-cover" alt="Bakso Sapi">
+                                <span class="font-bold text-slate-800 text-xs">Bakso Sapi</span>
+                            </div>
+                            <span class="text-red-500 font-bold text-xs">+2k</span>
+                        </div>
+                    </label>
+
+                    <label class="relative cursor-pointer group block">
+                        <input type="checkbox" id="check-bakso-ikan" class="hidden topping-checkbox">
+                        <div class="p-3 border-2 border-slate-50 rounded-2xl bg-slate-50 group-active:scale-95 transition-all flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <img src="img/topping-bakso-ikan.png" class="w-12 h-12 rounded-xl object-cover" alt="Bakso Ikan">
+                                <span class="font-bold text-slate-800 text-xs">Bakso Ikan</span>
+                            </div>
+                            <span class="text-red-500 font-bold text-xs">+3k</span>
+                        </div>
+                    </label>
+                </div>
             </div>
 
             <div class="p-8 bg-slate-50 rounded-t-[40px]">
+                <button onclick="addWithTopping()" class="w-full bg-red-500 text-white py-5 rounded-[24px] font-black text-sm tracking-widest uppercase shadow-xl shadow-red-200 active:scale-95 transition-all flex items-center justify-center gap-3">
+                    <i class="fas fa-plus-circle"></i>
+                    Tambahkan Keranjang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-xl" onclick="closeModal('orderModal')"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-none modal-active flex flex-col h-[92vh]">
+            <div class="p-8 pb-4 flex justify-between items-center">
+                <h3 class="text-2xl font-black text-slate-900">Pesanan saya</h3>
+                <button onclick="closeModal('orderModal')" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 active:scale-90 transition-transform">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="cart-items-container" class="flex-grow overflow-y-auto px-8 py-4 space-y-4">
+                </div>
+            <div class="p-8 bg-slate-50 rounded-t-[40px] border-t border-slate-100">
                 <div class="flex justify-between items-center mb-6 px-2">
-                    <span class="text-slate-400 font-bold">Total Pembayaran</span>
-                    <span id="cart-total-price" class="text-2xl font-black text-red-500">Rp 0</span>
+                    <span class="text-slate-400 font-bold text-sm uppercase tracking-wider">Total</span>
+                    <span id="cart-total-price" class="text-sm font-black text-red-500 bg-red-50 px-3 py-1 rounded-lg">Rp 0</span>
                 </div>
                 <button onclick="sendToWhatsApp()" class="w-full bg-red-500 text-white py-5 rounded-[24px] font-black text-sm tracking-widest uppercase shadow-xl shadow-red-200 flex items-center justify-center gap-3 active:scale-95 transition-all">
                     <i class="fab fa-whatsapp text-xl"></i>
@@ -253,11 +260,11 @@
     </div>
 
     <!-- Toast Success -->
-    <div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] bg-slate-900 text-white px-6 py-3 rounded-2xl shadow-2xl hidden items-center gap-3">
-        <div class="w-6 h-6 bg-green-500 rounded-lg flex items-center justify-center text-[10px]">
-            <i class="fas fa-check"></i>
+    <div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] bg-slate-900/95 backdrop-blur-md text-white px-5 py-2.5 rounded-full shadow-2xl hidden items-center gap-3 border border-white/10 w-max max-w-[280px]">
+        <div class="flex-shrink-0 w-3 h-3 bg-green-500 rounded-full flex items-center justify-center">
+            <i class="fas fa-check text-[8px]"></i>
         </div>
-        <span class="text-xs font-bold">Berhasil ditambahkan!</span>
+        <span class="text-[9px] font-bold tracking-wide whitespace-nowrap">Berhasil ditambahkan!</span>
     </div>
 
     <!-- Footer -->
@@ -276,15 +283,15 @@
             {
                 type: "makanan",
                 items: [
-                    { name: "Bakmi Ayam", price: 15000, desc: "Mie varian khas, ayam cincang dadu, sawi hijau, dan daun bawang dengan kuah kaldu ayam.", img: "img/bakmi-ayam.png", hasTopping: true },
-                    { name: "Bakmi Bangka", price: 15000, desc: "Mie varian keriting, ayam cincang halus, acar cabai, taoge, sawi hijau, dan daun bawang dengan kuah kaldu ayam.", img: "img/bakmi-bangka.png", hasTopping: true },
-                    { name: "Bakmi Lebar", price: 16000, desc: "Mie lebar khas, ayam cincang dadu, sawi hijau, dan daun bawang dengan kuah kaldu ayam.", img: "img/bakmi-lebar.png", hasTopping: true },
-                    { name: "Kwetiau", price: 16000, desc: "Kwetiau khas, ayam cincang dadu, sawi hijau, daun bawang dengan kuah kaldu ayam.", img: "img/kwetiau.png", hasTopping: true },
-                    { name: "Bihun", price: 16000, desc: "Bihun khas, ayam cincang dadu, sawi hijau, daun bawang dengan kuah kaldu ayam.", img: "img/bihun.png", hasTopping: true },
-                    { name: "Pangsit Kuah", price: 18000, desc: "Pangsit rebus 10 pcs, ayam cincang dadu, sawi hijau, daun bawang dengan kuah kaldu ayam.", img: "img/pangsit-kuah.png", hasTopping: false },
-                    { name: "Bakso Sapi", price: 16000, desc: "Bakso sapi 10 pcs, daun seledri, dan bawang goreng dengan kuah kaldu ayam.", img: "img/bakso-sapi.png", hasTopping: false },
-                    { name: "Bakso Ikan", price: 18000, desc: "Bakso ikan 8 pcs, daun seledri, dan bawang goreng dengan kuah kaldu ayam.", img: "img/bakso-ikan.png", hasTopping: false },
-                    { name: "Bakso Campur", price: 18000, desc: "Bakso sapi 5 pcs dan bakso ikan 4 pcs, daun seledri, dan bawang goreng dengan kuah kaldu ayam.", img: "img/bakso-campur.png", hasTopping: false },
+                    { name: "Bakmi Ayam", price: 15000, desc: "Mie varian khas, ayam dadu, sawi, dan daun bawang dengan kuah kaldu.", img: "img/bakmi-ayam.png", hasTopping: true },
+                    { name: "Bakmi Bangka", price: 15000, desc: "Mie keriting, ayam halus, taoge, acar cabai, sawi, dan daun bawang dengan kuah kaldu.", img: "img/bakmi-bangka.png", hasTopping: true },
+                    { name: "Bakmi Lebar", price: 16000, desc: "Mie lebar, ayam dadu, sawi, dan daun bawang dengan kuah kaldu.", img: "img/bakmi-lebar.png", hasTopping: true },
+                    { name: "Kwetiau", price: 16000, desc: "Kwetiau khas, ayam dadu, sawi, dan daun bawang dengan kuah kaldu.", img: "img/kwetiau.png", hasTopping: true },
+                    { name: "Bihun", price: 16000, desc: "Bihun khas, ayam dadu, sawi, dan daun bawang dengan kuah kaldu ayam.", img: "img/bihun.png", hasTopping: true },
+                    { name: "Pangsit Kuah", price: 18000, desc: "Pangsit rebus isi 10, ayam dadu, sawi, dan daun bawang dengan kuah kaldu.", img: "img/pangsit-kuah.png", hasTopping: false },
+                    { name: "Bakso Sapi", price: 16000, desc: "Bakso sapi isi 10, bawang goreng, dan seledri dengan kuah kaldu.", img: "img/bakso-sapi.png", hasTopping: false },
+                    { name: "Bakso Ikan", price: 18000, desc: "Bakso ikan isi 8, bawang goreng, dan seledri dengan kuah kaldu.", img: "img/bakso-ikan.png", hasTopping: false },
+                    { name: "Bakso Campur", price: 18000, desc: "Bakso sapi 5 & ikan 4, bawang goreng, dan seledri dengan kuah kaldu.", img: "img/bakso-campur.png", hasTopping: false },
                 ]
             },
             {
@@ -295,7 +302,7 @@
                     { name: "Es Teh Tawar", price: 2000, desc: "Minuman es teh tawar air dingin", img: "img/es-teh-tawar.png", hasTopping: false },
                     { name: "Es Teh Manis", price: 4000, desc: "Minuman es teh manis air dingin", img: "img/es-teh-manis.png", hasTopping: false },
                     { name: "Es Air Putih", price: 2000, desc: "Minuman es air putih dingin", img: "img/es-air-putih.png", hasTopping: false },
-                    { name: "Es Good Day", price: 5000, desc: "Minuman es Good Day Cappucino dingin", img: "img/goodday-cappucino.png", hasTopping: false },
+                    { name: "Es Good Day Cappucino", price: 5000, desc: "Minuman es good day cappucino", img: "img/goodday-cappucino.png", hasTopping: false },
                     { name: "Kopi Hitam", price: 5000, desc: "Minuman kopi hitam air panas", img: "img/kopi-hitam.png", hasTopping: false },
                     { name: "Air Mineral Oasis", price: 3000, desc: "Minuman botol air mineral 600 ml", img: "img/air-mineral-oasis.png", hasTopping: false },
                     { name: "Teh Pucuk", price: 5000, desc: "Minuman botol teh pucuk 350 ml", img: "img/teh-pucuk.png", hasTopping: false },
@@ -343,13 +350,13 @@
                         <div class="menu-card flex flex-col shadow-sm">
                             <div class="img-container">
                                 <img src="${item.img}" alt="${item.name}">
-                                <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full shadow-sm">
+                                <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2 py-1 rounded-full shadow-sm border border-slate-100">
                                     <span class="text-[10px] font-black text-red-500 tracking-wider">${priceFormatted}</span>
                                 </div>
                             </div>
                             <div class="p-4 pt-1 flex flex-col flex-grow">
-                                <h3 class="font-bold text-slate-800 text-sm leading-tight mb-1">${item.name}</h3>
-                                <p class="text-slate-400 text-[10px] leading-relaxed line-clamp-2 mb-3">${item.desc}</p>
+                                <h3 class="font-bold text-slate-800 text-[12px] leading-tight mb-1">${item.name}</h3>
+                                <p class="text-slate-400 text-[7px] leading-relaxed line-clamp-2 mb-3">${item.desc}</p>
                                 <div class="mt-auto">
                                     <div onclick="handleItemClick('${item.name}', ${item.price}, ${item.hasTopping})" 
                                         class="w-full py-2.5 bg-red-500 rounded-xl text-white flex items-center justify-center cursor-pointer transition-all active:scale-95 active:bg-red-600">
@@ -445,9 +452,8 @@
                             <div class="flex justify-between items-start mb-4">
                                 <div class="flex-grow pr-4">
                                     <h4 class="font-bold text-slate-800 text-sm leading-tight">${item.fullName}</h4>
-                                    <p class="text-red-500 font-bold text-xs mt-1">${formatCurrency(item.unitPrice)}</p>
                                 </div>
-                                <span class="font-black text-slate-900 text-sm whitespace-nowrap">${formatCurrency(subtotal)}</span>
+                                <span class="font-bold text-red-500 text-sm whitespace-nowrap">${formatCurrency(subtotal)}</span>
                             </div>
                             <div class="flex items-center gap-4">
                                 <div class="flex items-center bg-white rounded-2xl p-1 shadow-sm border border-slate-100">
