@@ -258,9 +258,19 @@
                     { name: "Kwetiau", price: 16000, desc: "Kwetiau khas, ayam dadu, sawi, dan daun bawang dengan kuah kaldu.", img: "img/kwetiau.jpeg", hasTopping: true },
                     { name: "Bihun", price: 16000, desc: "Bihun khas, ayam dadu, sawi, dan daun bawang dengan kuah kaldu ayam.", img: "img/bihun.jpeg", hasTopping: true },
                     { name: "Pangsit Kuah", price: 18000, desc: "Pangsit rebus isi 10, ayam dadu, sawi, dan daun bawang dengan kuah kaldu.", img: "img/pangsit-kuah.jpeg", hasTopping: false },
-                    { name: "Bakso Sapi", price: 16000, desc: "Bakso sapi isi 10, bawang goreng, dan seledri dengan kuah kaldu.", img: "img/bakso-sapi.jpeg", hasTopping: false },
-                    { name: "Bakso Ikan", price: 18000, desc: "Bakso ikan isi 8, bawang goreng, dan seledri dengan kuah kaldu.", img: "img/bakso-ikan.jpeg", hasTopping: false },
+                    { name: "Pangsit Kuah 1/2", price: 10000, desc: "Pangsit rebus isi 5, ayam dadu, sawi, dan daun bawang dengan kuah kaldu.", img: "img/pangsit-kuah-set.jpeg", hasTopping: false },
                     { name: "Bakso Campur", price: 18000, desc: "Bakso sapi 5 & ikan 4, bawang goreng, dan seledri dengan kuah kaldu.", img: "img/bakso-campur.jpeg", hasTopping: false },
+                    { name: "Bakso Sapi", price: 16000, desc: "Bakso sapi isi 10, bawang goreng, dan seledri dengan kuah kaldu.", img: "img/bakso-sapi.jpeg", hasTopping: false },
+                    { name: "Bakso Sapi 1/2", price: 8000, desc: "Bakso sapi isi 5, bawang goreng, dan seledri dengan kuah kaldu.", img: "img/bakso-sapi-set.jpeg", hasTopping: false },
+                    { name: "Bakso Ikan", price: 18000, desc: "Bakso ikan isi 8, bawang goreng, dan seledri dengan kuah kaldu.", img: "img/bakso-ikan.jpeg", hasTopping: false },
+                    { name: "Bakso Ikan 1/2", price: 10000, desc: "Bakso ikan isi 4, bawang goreng, dan seledri dengan kuah kaldu.", img: "img/bakso-ikan-set.jpeg", hasTopping: false },
+                    { name: "Pangsit Goreng", price: 26000, desc: "Pangsit goreng isi 8, kulit pangsit dengan isian daging ayam halus.", img: "img/pangsit-goreng.jpeg", hasTopping: false },
+                    { name: "Pangsit Goreng 1/2", price: 14000, desc: "Pangsit goreng isi 4, kulit pangsit dengan isian daging ayam halus.", img: "img/pangsit-goreng-set.jpeg", hasTopping: false },
+                    { name: "Pangsit Kuah Dua", price: 5000, desc: "Pangsit rebus isi 2, ayam dadu, sawi, dan daun bawang dengan kuah kaldu.", img: "img/topping-pangsit-rebus.jpeg", hasTopping: false },
+                    { name: "Pangsit Goreng Dua", price: 7000, desc: "Pangsit goreng isi 2, kulit pangsit dengan isian daging ayam halus.", img: "img/topping-pangsit-goreng.jpeg", hasTopping: false },
+                    { name: "Bakso Sapi Dua", price: 4000, desc: "Bakso sapi isi 2, bawang goreng, dan seledri dengan kuah kaldu.", img: "img/topping-bakso-sapi.jpeg", hasTopping: false },
+                    { name: "Bakso Ikan Dua", price: 5000, desc: "Bakso ikan isi 2, bawang goreng, dan seledri dengan kuah kaldu.", img: "img/topping-bakso-ikan.jpeg", hasTopping: false },
+                    { name: "Kerupuk Putih", price: 2000, desc: "Kerupuk mawah putih isi 1", img: "img/kerupuk-mawar.jpeg", hasTopping: false },
                 ]
             },
             {
@@ -463,7 +473,7 @@
                 message += `${index + 1}. ${item.fullName} (${item.quantity}x)\n`;
             });
             message += `\n*TOTAL: ${formatCurrency(total)}*`;
-            window.open(`https://wa.me/6281280906333?text=${encodeURIComponent(message)}`, '_blank');
+            window.open(`https://wa.me/6281280666370?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         window.onload = () => renderMenu();
