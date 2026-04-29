@@ -27,6 +27,22 @@
             -webkit-backdrop-filter: blur(12px);
         }
 
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #menu-section {
+            scroll-margin-top: 70px;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
         .menu-card {
             background: white;
             border-radius: 16px;
@@ -96,7 +112,57 @@
         </div>
     </nav>
 
-    <main class="mobile-container pt-16 pb-28 px-3">
+    <section class="w-full pt-14 overflow-hidden relative"> 
+        <div id="hero-slider" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar h-[calc(100vh-56px)] scroll-smooth">        
+            
+            <div class="min-w-full h-full snap-center relative">
+                <img src="hero/banner1.jpg" alt="Hero 1" class="w-full h-full object-cover block">
+                <div class="absolute inset-0 flex items-start pt-10"> 
+                    <div class="max-w-md mx-auto px-4 w-full"> 
+                        <div class="bg-white/60 backdrop-blur-md border border-white/40 p-5 rounded-2xl shadow-sm">
+                            <h2 class="font-bold text-red-500 tracking-tighter leading-none mb-3" style="font-size: 32px;">Nikmat Tiap Suapan</h2>
+                            <p class="font-medium text-slate-900 leading-2 mb-5" style="font-size: 14px;">Nikmati kehangatan bakmi kenyal dengan bumbu spesial yang mampu membangkitkan kembali semangat Anda dalam seketika.</p>
+                            <a href="#menu-section" class="inline-block bg-red-500 text-white px-5 py-2 rounded-xl font-bold text-xs uppercase tracking-wider active:scale-95 transition-transform">Lihat Menu</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="min-w-full h-full snap-center relative">
+                <img src="hero/banner2.jpg" alt="Hero 2" class="w-full h-full object-cover block">
+                <div class="absolute inset-0 flex items-start pt-10"> 
+                    <div class="max-w-md mx-auto px-4 w-full"> 
+                        <div class="bg-white/60 backdrop-blur-md border border-white/40 p-5 rounded-2xl shadow-sm">
+                            <h2 class="font-bold text-red-500 tracking-tighter leading-none mb-3" style="font-size: 32px;">Solusi Lapar Anda</h2>
+                            <p class="font-medium text-slate-900 leading-2 mb-5" style="font-size: 14px;">Manjakan lidah dengan semangkok bakmi kenyal dengan bumbu gurih yang sangat lezat dalam mengusir rasa lapar Anda.</p>
+                            <a href="#menu-section" class="inline-block bg-red-500 text-white px-5 py-2 rounded-xl font-bold text-xs uppercase tracking-wider active:scale-95 transition-transform">Lihat Menu</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="min-w-full h-full snap-center relative">
+                <img src="hero/banner3.jpg" alt="Hero 3" class="w-full h-full object-cover block">
+                <div class="absolute inset-0 flex items-start pt-10"> 
+                    <div class="max-w-md mx-auto px-4 w-full"> 
+                        <div class="bg-white/60 backdrop-blur-md border border-white/40 p-5 rounded-2xl shadow-sm">
+                            <h2 class="font-bold text-red-500 tracking-tighter leading-none mb-3" style="font-size: 32px;">Pilihan Menu Favorit</h2>
+                            <p class="font-medium text-slate-900 leading-2 mb-5" style="font-size: 14px;">Tersedia pilihan topping pangsit, bakso sapi, atau bakso ikan yang semuanya bisa disesuaikan dengan keinginan selera makan Anda.</p>
+                            <a href="#menu-section" class="inline-block bg-red-500 text-white px-5 py-2 rounded-xl font-bold text-xs uppercase tracking-wider active:scale-95 transition-transform">Lihat Menu</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="hero-dots" class="flex justify-center gap-2 -mt-8 pb-4 relative z-10">
+            <button onclick="scrollToBanner(0)" class="w-2 h-2 rounded-full bg-white shadow-sm transition-all duration-300 opacity-100"></button>
+            <button onclick="scrollToBanner(1)" class="w-2 h-2 rounded-full bg-white shadow-sm transition-all duration-300 opacity-50"></button>
+            <button onclick="scrollToBanner(2)" class="w-2 h-2 rounded-full bg-white shadow-sm transition-all duration-300 opacity-50"></button>
+        </div>
+    </section>
+
+    <main id="menu-section" class="mobile-container pt-16 pb-28 px-3">
         <div class="flex justify-start items-center gap-2 pb-4 overflow-x-auto no-scrollbar" id="category-list">
             <button onclick="setActiveNav(this, 'all')" 
                 class="category-pill whitespace-nowrap px-4 py-1.5 rounded-lg font-bold bg-red-500 text-white shadow-sm">
@@ -245,6 +311,25 @@
     </footer>
 
     <script>
+        function scrollToBanner(index) {
+            const slider = document.getElementById('hero-slider');
+            if (slider) {
+                const bannerWidth = slider.offsetWidth;
+                slider.scrollTo({
+                    left: bannerWidth * index,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        document.getElementById('hero-slider').addEventListener('scroll', function() {
+            const index = Math.round(this.scrollLeft / this.offsetWidth);
+            const dots = document.querySelectorAll('#hero-dots button');
+            dots.forEach((dot, i) => {
+                dot.style.opacity = i === index ? '1' : '0.5';
+            });
+        });
+
         let cart = [];
         let currentToppingProduct = null;
 
@@ -282,7 +367,7 @@
                     { name: "Es Teh Tawar", price: 2000, desc: "Minuman es teh tawar air dingin", img: "img/es-teh-tawar.jpeg", hasTopping: false },
                     { name: "Es Teh Manis", price: 4000, desc: "Minuman es teh manis air dingin", img: "img/es-teh-manis.jpeg", hasTopping: false },
                     { name: "Es Air Putih", price: 2000, desc: "Minuman es air putih dingin", img: "img/es-air-putih.jpeg", hasTopping: false },
-                    { name: "Es Good Day Cappuccino", price: 5000, desc: "Minuman es good day cappuccino", img: "img/goodday-cappucino.jpeg", hasTopping: false },
+                    { name: "Es Good Day Cappucino", price: 5000, desc: "Minuman es good day cappuccino", img: "img/goodday-cappucino.jpeg", hasTopping: false, isSoldOut: true },
                     { name: "Kopi Hitam", price: 5000, desc: "Minuman kopi hitam air panas", img: "img/kopi-hitam.jpeg", hasTopping: false },
                     { name: "Air Mineral Oasis", price: 3000, desc: "Minuman botol air mineral 600 ml", img: "img/air-mineral-oasis.jpeg", hasTopping: false },
                     { name: "Teh Pucuk", price: 5000, desc: "Minuman botol teh pucuk 350 ml", img: "img/teh-pucuk.jpeg", hasTopping: false },
@@ -299,8 +384,15 @@
             menuData.forEach(group => {
                 if (filter !== 'all' && group.type !== filter) return;
                 group.items.forEach(item => {
+                    
+                    const soldOutClass = item.isSoldOut ? 'grayscale opacity-70' : '';
+                    const pointerClass = item.isSoldOut ? 'cursor-not-allowed' : 'cursor-pointer';
+                    const clickAction = item.isSoldOut ? '' : `onclick="handleItemClick('${item.name}', ${item.price}, ${item.hasTopping})"`;
+                    const buttonText = item.isSoldOut ? 'Kosong' : 'Tambah';
+                    const buttonColor = item.isSoldOut ? 'bg-slate-400' : 'bg-red-500 active:bg-red-600';
+
                     container.innerHTML += `
-                        <div class="menu-card flex flex-col shadow-sm">
+                        <div class="menu-card flex flex-col shadow-sm ${soldOutClass}">
                             <div class="img-container">
                                 <img src="${item.img}" alt="${item.name}">
                                 <div class="absolute top-2 right-2 bg-white/90 px-1.5 py-0.5 rounded-lg border border-slate-50">
@@ -311,9 +403,9 @@
                                 <h3 class="font-bold text-slate-800 mb-1 leading-tight" style="font-size: 10px;">${item.name}</h3>
                                 <p class="menu-desc text-slate-400 line-clamp-2 mb-2">${item.desc}</p>
                                 <div class="mt-auto">
-                                    <div onclick="handleItemClick('${item.name}', ${item.price}, ${item.hasTopping})"
-                                        class="w-full py-1.5 bg-red-500 rounded-lg text-white flex items-center justify-center cursor-pointer active:bg-red-600">
-                                        <span class="font-bold uppercase tracking-tighter" style="font-size: 9px;">Tambah</span>
+                                    <div ${clickAction}
+                                        class="w-full py-1.5 ${buttonColor} rounded-lg text-white flex items-center justify-center ${pointerClass}">
+                                        <span class="font-bold uppercase tracking-tighter" style="font-size: 9px;">${buttonText}</span>
                                     </div>
                                 </div>
                             </div>
